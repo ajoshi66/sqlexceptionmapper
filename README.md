@@ -17,7 +17,9 @@ insert into manufacturer (mnfr_address_1,mnfr_address_2,mnfr_city_code,mnfr_coun
 Of course, the messages may be complex when they are related to referential integrity constraints.
 
 # My app has UI handling validations. Why do I need to handle SQL exceptions?
-The user interface handling application validations is the ideal approach. However, UI's ability to handle such validations are limited, especially when the UI and the Services are separate components of your application.
+The user interface handling application validations is the ideal approach. However, UI's ability to handle such validations are limited, especially when the UI and the Services are separate components of your application. In addition, the UI may be consuming services from multiple applications and respective services own the data and validation, whether UI does it or not.
 
 If your service layer is an independent deployable component, it cannot depend on UI and has an obligation to validate all conditions including referential integrity constraints.
 
+# My app's  has all validations. Why do I need the SQL Exception Mapper?
+Validation of referential integrity constraints by the service are hard and requires additional calls to database, which hits the application performance. Also, making code changes is inefficient when a new SQL exception is discovered every time. With the mapper, the new exception may require just configuration changes.
