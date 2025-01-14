@@ -21,5 +21,5 @@ The user interface handling application validations is the ideal approach. Howev
 
 If your service layer is an independent deployable component, it cannot depend on UI and has an obligation to validate all conditions including referential integrity constraints.
 
-# My app's  has all validations. Why do I need the SQL Exception Mapper?
+# My app's Service Layer has all validations. Why do I need the SQL Exception Mapper?
 Validation of referential integrity constraints by the service are hard and requires additional calls to database, which hits the application performance. Also, making code changes is inefficient when a new SQL exception is discovered every time. With the mapper, the new exception may require just configuration changes.
