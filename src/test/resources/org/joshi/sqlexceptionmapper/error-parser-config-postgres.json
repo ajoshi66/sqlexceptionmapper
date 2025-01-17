@@ -1,0 +1,15 @@
+{
+	"dbType": "POSTGRESQL",
+	"useErrorCode": false,
+	"useErrorState": true,
+	"errorDetails": [{
+		"errorCode": null,
+		"errorState": "23503",
+		"description": "TBD -- Violation of referential integrity -- Unknown value",
+		"sampleError": "TBD",
+		"splitterRegex": "\\\"",
+		"tokenInds": [3],
+		"patternRegex": null,
+		"removeSplChars": true
+	}]
+}

@@ -1,0 +1,15 @@
+{
+	"dbType": "POSTGRESQL",
+	"useErrorCode": false,
+	"useErrorState": true,
+	"errorDetails": [{
+		"errorCode": "0",
+		"errorState": "23503",
+		"description": "Violation of referential integrity -- Unknown value",
+		"sampleError": "ERROR: insert or update on table \"manufacturer\" violates foreign key constraint \"fk_mnfr_city\"",
+		"splitterRegex": "\\\"",
+		"tokenInds": [3],
+		"patternRegex": null,
+		"removeSplChars": true
+	}]
+}
