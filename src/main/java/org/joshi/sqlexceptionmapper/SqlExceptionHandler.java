@@ -18,6 +18,7 @@ public interface SqlExceptionHandler {
 	
 	static final String DBTYPE_H2DB = "H2DB";
 	static final String DBTYPE_POSTGRESQL = "POSTGRESQL";
+	static final String DBTYPE_MYSQL = "MYSQL";
 	
 	static final String H2DB_EXCEPTION = "org.h2.jdbc.";
 	static final String POSTGRESQL_EXCEPTION = "org.postgresql.";
@@ -25,6 +26,22 @@ public interface SqlExceptionHandler {
 	static final List<Handler> registeredHandlers = init();
 	
 	void handleSqlException(SqlExceptionDetail sqled);
+	
+	static SqlExceptionHandler getHandler(String dbType) {
+		SqlExceptionHandler result = null;
+		Optional<Handler> optHandler = registeredHandlers.stream()
+				.filter( h -> (dbType != null && dbType.equals(h.getDbType())))
+				.findFirst();
+		if (optHandler.isPresent()) {
+			try {
+				result = optHandler.get().getHandlerClass().getDeclaredConstructor().newInstance();
+			} catch (Exception e) {
+				// Intentional
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 	
 	static SqlExceptionHandler getHandler(SqlExceptionDetail sqle) {
 		SqlExceptionHandler result = null;
@@ -44,6 +61,10 @@ public interface SqlExceptionHandler {
 	}
 	
 	static SqlExceptionDetail getSqlExceptionDetails(DataAccessException dae) {
+		return getSqlExceptionDetails(dae, null);
+	}
+
+	static SqlExceptionDetail getSqlExceptionDetails(DataAccessException dae, String dbType) {
 		SqlExceptionDetail sed = null;
 		if (dae.getMostSpecificCause() instanceof SQLException sqle) {
 			sed = new SqlExceptionDetail();
@@ -51,14 +72,16 @@ public interface SqlExceptionHandler {
 			sed.setOriginalMessage(sqle.getMessage());
 			sed.setSqlErrorCode(String.valueOf(sqle.getErrorCode()));
 			sed.setSqlErrorState(String.valueOf(sqle.getSQLState()));
+			sed.setDbType(dbType);
 		}
 		return sed;
 	}
 
 	private static List<Handler> init() {
 		List<Handler> result = new ArrayList<Handler>();
-		result.add(new Handler(H2DB_EXCEPTION, H2DBExceptionHandler.class));
-		result.add(new Handler(POSTGRESQL_EXCEPTION, PostgresExceptionHandler.class));
+		result.add(new Handler(H2DB_EXCEPTION, DBTYPE_H2DB, H2DBExceptionHandler.class));
+		result.add(new Handler(POSTGRESQL_EXCEPTION, DBTYPE_POSTGRESQL, PostgresExceptionHandler.class));
+		result.add(new Handler(POSTGRESQL_EXCEPTION, DBTYPE_MYSQL, MysqlExceptionHandler.class));
 		return result;
 	}
 	
@@ -83,10 +106,12 @@ public interface SqlExceptionHandler {
 @Getter
 class Handler {
 	private String dbPackageName;
+	private String dbType;
 	private Class<? extends SqlExceptionHandler> handlerClass;
 	
-	Handler(String dbPackageName, Class<? extends SqlExceptionHandler> handlerClass) {
+	Handler(String dbPackageName, String dbType, Class<? extends SqlExceptionHandler> handlerClass) {
 		this.dbPackageName = dbPackageName;
+		this.dbType = dbType;
 		this.handlerClass = handlerClass;
 	}
 }

@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.joshi</groupId>
 	<artifactId>sqlexceptionmapper</artifactId>
-	<version>0.1.1-SNAPSHOT</version>
+	<version>0.1.2-SNAPSHOT</version>
 	<name>SqlExceptionMapper</name>
 	<packaging>jar</packaging>
 	<description>Helps deriving business messages for SQL Errors</description>
