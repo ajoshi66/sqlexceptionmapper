@@ -1,0 +1,28 @@
+{
+	"dbType": "H2DB",
+	"useErrorCode": true,
+	"useErrorState": false,
+	"sqlStmtToken": "SQL statement:",
+	"detailsToken": null,
+	"defaultSplitRegex": "\"|\\.|:",
+	"defaultTokenIndex": 1,
+	"errorDetails": [
+		{
+			"errorCode": "22001",
+			"errorState": "22001",
+			"description": "Value too long.",
+			"sampleError": "Value too long for column \"MNFR_NAME CHARACTER VARYING(50)\": \"'Hyundai Cars Manufacturer somewhere in south of Inda' (52)\"; SQL statement:\ninsert into manufacturer (mnfr_address_1,mnfr_address_2,mnfr_city_code,mnfr_country,mnfr_name,mnfr_state,mnfr_id) values (?,?,?,?,?,?,default) [22001-232]",
+			"splitterRegex": "\"| ",
+			"tokenInds": [6],
+			"patternRegex": null
+		}, {
+			"errorCode": "23506",
+			"errorState": "23506",
+			"description": "Foreign key violation - value not found.",
+			"sampleError": "Referential integrity constraint violation: \"FK_MNFR_CITY: PUBLIC.MANUFACTURER FOREIGN KEY(MNFR_CITY_CODE) REFERENCES PUBLIC.CITY(CITY_CODE) ('XMAS')\"; SQL statement:\ninsert into manufacturer (mnfr_address_1,mnfr_address_2,mnfr_city_code,mnfr_country,mnfr_name,mnfr_state,mnfr_id) values (?,?,?,?,?,?,default) [23506-232]",
+			"splitterRegex": "\"|:",
+			"tokenInds": [2],
+			"patternRegex": null
+		}
+	]
+}

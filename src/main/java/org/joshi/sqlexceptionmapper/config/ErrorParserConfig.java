@@ -10,6 +10,10 @@ public class ErrorParserConfig {
 	private String dbType;
 	private boolean useErrorCode;
 	private boolean useErrorState;
+	private String sqlStmtToken;
+	private String detailsToken;
+	private String defaultSplitRegex;
+	private int defaultTokenIndex;
 	private List<ErrorParserDetail> errorDetails;
 	
 	public ErrorParserDetail getDetail(String errorCode, String errorState) {

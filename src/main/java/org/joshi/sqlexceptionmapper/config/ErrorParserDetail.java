@@ -13,6 +13,8 @@ public class ErrorParserDetail {
 	private String splitterRegex;
 	private int[] tokenInds;
 	private String[] patternRegex;
+	
+	@Deprecated
 	private boolean removeSplChars;
 
 	public ErrorParserDetail() {

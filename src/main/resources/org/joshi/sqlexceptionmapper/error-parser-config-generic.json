@@ -1,0 +1,31 @@
+{
+	"dbType": "MYSQL",
+	"useErrorCode": true,
+	"useErrorState": false,
+	"sqlStmtToken": null,
+	"detailsToken": null,
+	"defaultSplitRegex": "'|\\.",
+	"defaultTokenIndex": 1,
+	"errorDetails": [
+		{
+			"errorCode": "1452",
+			"errorState": "23000",
+			"description": "Violation of referential integrity -- Unknown value",
+			"sampleError": "Cannot add or update a child row: a foreign key constraint fails (`vehicles`.`manufacturer`, CONSTRAINT `FK_MNFR_CITY` FOREIGN KEY (`MNFR_CITY_CODE`) REFERENCES `city` (`CITY_CODE`))",
+			"splitterRegex": null,
+			"tokenInds": null,
+			"patternRegex": [
+				"(?<=(constraint|CONSTRAINT)\\s+`)\\w+"
+			]
+		},
+		{
+			"errorCode": "1062",
+			"errorState": "23000",
+			"description": "Unique key violation",
+			"sampleError": "Duplicate entry 'Hyundai Automobiles' for key 'manufacturer.UK_MNFR_NAME'",
+			"splitterRegex": "'|\\.",
+			"tokenInds": [4],
+			"patternRegex": null
+		}
+	]
+}

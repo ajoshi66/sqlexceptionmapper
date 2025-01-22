@@ -1,0 +1,29 @@
+--INSERT with unknown column
+INSERT INTO CITY (NAME) VALUES ('Bengaluru');
+
+--INSERT WITHOUT PK (Non-Generated); Same as NOT NULL constraint? 
+INSERT INTO CITY (CITY_NAME) VALUES ('Bengaluru');
+
+--INSERT with duplicate PK (Non-Generated) 
+INSERT INTO CITY (CITY_CODE, CITY_NAME) VALUES ('BLR', 'Bengaluru');
+
+--INSERT WITH PK specified instead of generated one.
+INSERT INTO MANUFACTURER (MNFR_ID) VALUES (100);
+
+--INSERT with Duplicate Unique Key
+INSERT INTO MANUFACTURER (MNFR_NAME, MNFR_ADDRESS_1, MNFR_ADDRESS_2, MNFR_CITY_CODE, MNFR_STATE, MNFR_COUNTRY) VALUES ('Honda Motors', 'Pune', NULL, 'PUN', 'Maharashtra', 'India');
+
+Database error::SqlExceptionDetail(sqlErrorCode=1062, sqlErrorState=23000, originalMessage=Duplicate entry 'Hyundai Cars' for key 'manufacturer.UK_MNFR_NAME', sqlErrorMessage=null, exceptionClassName=java.sql.SQLIntegrityConstraintViolationException, dbType=null, sqlStatement=null, mappedErrorCode=null, defaultMessage=null)
+
+
+--INSERT with non-existing Foreign Key
+INSERT INTO MANUFACTURER (MNFR_NAME, MNFR_ADDRESS_1, MNFR_ADDRESS_2, MNFR_CITY_CODE, MNFR_STATE, MNFR_COUNTRY) VALUES ('Bonda Motors', 'Pune', NULL, 'FUN', 'Maharashtra', 'India');
+
+Database error::SqlExceptionDetail(sqlErrorCode=1452, sqlErrorState=23000, originalMessage=Cannot add or update a child row: a foreign key constraint fails (`vehicles`.`manufacturer`, CONSTRAINT `FK_MNFR_CITY` FOREIGN KEY (`MNFR_CITY_CODE`) REFERENCES `city` (`CITY_CODE`)), sqlErrorMessage=null, exceptionClassName=java.sql.SQLIntegrityConstraintViolationException, dbType=null, sqlStatement=null, mappedErrorCode=null, defaultMessage=null)
+
+
+--DELETE a master when it is referenced elsewhere
+DELETE FROM CITY WHERE CITY_CODE = 'DEL';
+
+--INSERT with value too long for a column
+INSERT INTO CITY (CITY_CODE, CITY_NAME) VALUES ('BLR1234567890', 'Bengaluru');
