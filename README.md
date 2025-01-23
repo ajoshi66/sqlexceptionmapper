@@ -55,4 +55,48 @@ Add an attribute to locate the configuration file and a bean definition. Please 
 ```
 
 ### Add REST Controller Advice
+In case of Spring, Spring Data, Spring JDBC, the most common exception used is `org.springframework.dao.DataAccessException` is thrown for problems related to DB operations. Hence, create a REST Controller Advice to catch this exception. You can also use `java.sql.SQLException` instead of `DataAccessException`.
+
+```java
+@Slf4j
+@RestControllerAdvice
+public class SqlExceptionAdvice extends ResponseEntityExceptionHandler {
+	
+	@Autowired
+	private MessageSource messageSource;
+	
+	@Autowired
+	private SqlExceptionHandler sqlExceptionHandler;
+	
+	@ExceptionHandler(DataAccessException.class)
+	public ResponseEntity<?> handleDataAccessException(
+            final DataAccessException exception, final HttpServletRequest request) throws ManufacturerException {
+		String response = "Database error::";
+		String errorCode = "";
+		SqlExceptionDetail sqlED = SqlExceptionHandler.getSqlExceptionDetails(exception, SqlExceptionHandler.DBTYPE_MYSQL);
+		if (sqlED != null) {
+			try {
+				sqlExceptionHandler.handleSqlException(sqlED);
+			} catch (Exception e) {
+				log.error("Critical Error: Unable to handle exception.", e);
+			}
+			if (sqlED.getMappedErrorCode() != null) {
+				errorCode += sqlED.getMappedErrorCode();
+			}
+			try {
+				response += messageSource.getMessage(errorCode.toUpperCase(), null, request.getLocale());
+			} catch (NoSuchMessageException e) {
+				log.error("Critical Error: No such error message.", e);
+				response += sqlED.toString();
+			}
+		} else {
+			response += " from unknown database.";
+		}
+		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+}
+```
+
+### Configure messages
+Up on the occurrance of an SQL error, the `handleSqlException()` method updates with `mappedErrorCode` attribute in `SqlExceptionDetail`. Add an entry in `Messages` resource bundle with a meaningful message for that error code.
 
