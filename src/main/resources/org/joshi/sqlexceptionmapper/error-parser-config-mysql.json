@@ -2,6 +2,10 @@
 	"dbType": "POSTGRESQL",
 	"useErrorCode": true,
 	"useErrorState": false,
+	"sqlStmtToken": null,
+	"detailsToken": null,
+	"defaultSplitRegex": "`|'|\\.",
+	"defaultTokenIndex": 1,
 	"errorDetails": [
 		{
 			"errorCode": "1452",

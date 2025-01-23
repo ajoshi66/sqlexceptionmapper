@@ -2,6 +2,10 @@
 	"dbType": "POSTGRESQL",
 	"useErrorCode": false,
 	"useErrorState": true,
+	"sqlStmtToken": "SQL statement:",
+	"detailsToken": null,
+	"defaultSplitRegex": "\"",
+	"defaultTokenIndex": 1,
 	"errorDetails": [{
 		"errorCode": "0",
 		"errorState": "23503",
@@ -9,7 +13,14 @@
 		"sampleError": "ERROR: insert or update on table \"manufacturer\" violates foreign key constraint \"fk_mnfr_city\"",
 		"splitterRegex": "\\\"",
 		"tokenInds": [3],
-		"patternRegex": null,
-		"removeSplChars": true
+		"patternRegex": null
+	}, {
+		"errorCode": "0",
+		"errorState": "22001",
+		"description": "Value too long",
+		"sampleError": "ERROR: value too long for type character varying(5)",
+		"splitterRegex": null,
+		"tokenInds": null,
+		"patternRegex": null
 	}]
 }
