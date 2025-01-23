@@ -40,4 +40,19 @@ The framework also depends on Jackson Object Mapper to read JSON files.
 
 # How to adopt?
 ## Adopt using Spring Boot
+This section describes usage of SQL Exception Mapper for Spring Boot. The usage is test with spring-boot version 3.4.x.
+### Add a config entry
+Add an attribute to locate the configuration file and a bean definition. Please note that the default configuration files are available in `org/joshi/sqlexceptionmapper/` folder under `src/main/resources`. If you are using a custom configuration file, then specify the location as required in the application properties. The custom file must be available in class path.
+
+```java
+	@Value("${sqlexceptionmapper.configfile:org/joshi/sqlexceptionmapper/error-parser-config-mysql.json}")
+	private String mapperConfigFile;
+	
+	@Bean
+	public SqlExceptionHandler sqlExceptionHandler() {
+		return new GenericSqlExceptionHandler(SqlExceptionHandler.DBTYPE_MYSQL, mapperConfigFile);
+	}
+```
+
+### Add REST Controller Advice
 
